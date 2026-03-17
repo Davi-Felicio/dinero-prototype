@@ -1,5 +1,5 @@
 import { PageShell } from "@/components/PageShell";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
@@ -21,12 +21,8 @@ export default function Categories() {
 
   return (
     <PageShell>
-      <div className="px-5 pt-12 pb-4 flex items-center justify-between">
-        <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center">
-          <ChevronLeft className="w-4 h-4 text-foreground" />
-        </button>
-        <p className="text-sm font-semibold text-foreground">Categorias</p>
-        <div className="w-9" />
+      <div className="px-5 pt-12 pb-4">
+        <h1 className="text-lg font-bold text-foreground">Categorias</h1>
       </div>
 
       {/* Pie Chart */}
