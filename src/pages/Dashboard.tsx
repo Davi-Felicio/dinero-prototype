@@ -26,7 +26,7 @@ export default function Dashboard() {
           <p className="text-base font-semibold text-foreground">Victor Blum</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center">
+          <button onClick={() => navigate("/notifications")} className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center">
             <Bell className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
           </button>
         </div>
