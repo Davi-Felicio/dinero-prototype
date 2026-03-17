@@ -12,6 +12,7 @@ import Transactions from "./pages/Transactions";
 import Cards from "./pages/Cards";
 import Categories from "./pages/Categories";
 import Currencies from "./pages/Currencies";
+import CategoryDetail from "./pages/CategoryDetail";
 import SettingsPage from "./pages/Settings";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
