@@ -44,6 +44,7 @@ const App = () => (
           <Route path="/categories" element={<AppLayout><Categories /></AppLayout>} />
           <Route path="/category/:name" element={<AppLayout><CategoryDetail /></AppLayout>} />
           <Route path="/currencies" element={<AppLayout><Currencies /></AppLayout>} />
+          <Route path="/notifications" element={<AppLayout><Notifications /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><SettingsPage /></AppLayout>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
