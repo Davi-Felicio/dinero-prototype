@@ -8,6 +8,7 @@ const sections = [
     items: [
       { icon: User, label: "Perfil", path: "/profile" },
       { icon: CreditCard, label: "Cartões", path: "/cards" },
+      { icon: ArrowLeftRight, label: "Todas as transações", path: "/transactions" },
       { icon: Tag, label: "Categorias", path: "/categories" },
       { icon: Bell, label: "Notificações", path: "/notifications" },
     ],

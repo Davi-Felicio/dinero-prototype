@@ -93,7 +93,7 @@ export default function Categories() {
                     }}
                   />
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
