@@ -12,6 +12,7 @@ import Transactions from "./pages/Transactions";
 import Cards from "./pages/Cards";
 import Categories from "./pages/Categories";
 import Currencies from "./pages/Currencies";
+import CategoryDetail from "./pages/CategoryDetail";
 import SettingsPage from "./pages/Settings";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/transactions" element={<AppLayout><Transactions /></AppLayout>} />
           <Route path="/cards" element={<AppLayout><Cards /></AppLayout>} />
           <Route path="/categories" element={<AppLayout><Categories /></AppLayout>} />
+          <Route path="/category/:name" element={<AppLayout><CategoryDetail /></AppLayout>} />
           <Route path="/currencies" element={<AppLayout><Currencies /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><SettingsPage /></AppLayout>} />
           <Route path="*" element={<NotFound />} />

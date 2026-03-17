@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, ArrowLeftRight, TrendingUp, PlusCircle, Settings } from "lucide-react";
+import { LayoutDashboard, Tag, TrendingUp, PlusCircle, Settings } from "lucide-react";
 
 const tabs = [
   { icon: LayoutDashboard, label: "Home", path: "/" },
-  { icon: ArrowLeftRight, label: "Transações", path: "/transactions" },
+  { icon: Tag, label: "Categorias", path: "/categories" },
   { icon: PlusCircle, label: "Adicionar", path: "/add", isCenter: true },
   { icon: TrendingUp, label: "Portfólio", path: "/portfolio" },
   { icon: Settings, label: "Config", path: "/settings" },

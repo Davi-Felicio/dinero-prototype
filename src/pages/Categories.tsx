@@ -1,5 +1,5 @@
 import { PageShell } from "@/components/PageShell";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
@@ -21,12 +21,8 @@ export default function Categories() {
 
   return (
     <PageShell>
-      <div className="px-5 pt-12 pb-4 flex items-center justify-between">
-        <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center">
-          <ChevronLeft className="w-4 h-4 text-foreground" />
-        </button>
-        <p className="text-sm font-semibold text-foreground">Categorias</p>
-        <div className="w-9" />
+      <div className="px-5 pt-12 pb-4">
+        <h1 className="text-lg font-bold text-foreground">Categorias</h1>
       </div>
 
       {/* Pie Chart */}
@@ -68,7 +64,11 @@ export default function Categories() {
             const isOver = pct >= 100;
             const isWarning = pct >= 80;
             return (
-              <div key={cat.name} className="rounded-xl border border-border surface-1 p-4">
+              <button
+                key={cat.name}
+                onClick={() => navigate(`/category/${encodeURIComponent(cat.name)}`)}
+                className="rounded-xl border border-border surface-1 p-4 w-full text-left hover:bg-accent/30 transition-brand"
+              >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-base">{cat.emoji}</span>
@@ -93,7 +93,7 @@ export default function Categories() {
                     }}
                   />
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
