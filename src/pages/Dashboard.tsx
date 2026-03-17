@@ -112,7 +112,7 @@ export default function Dashboard() {
       <div className="px-5 mt-6">
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold text-foreground">Transações recentes</p>
-          <button onClick={() => navigate("/categories")} className="text-xs text-muted-foreground flex items-center gap-0.5">
+          <button onClick={() => navigate("/transactions")} className="text-xs text-muted-foreground flex items-center gap-0.5">
             Ver todas <ChevronRight className="w-3 h-3" />
           </button>
         </div>
