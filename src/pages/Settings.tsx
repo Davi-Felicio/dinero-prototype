@@ -1,5 +1,5 @@
 import { PageShell } from "@/components/PageShell";
-import { ChevronRight, User, CreditCard, Tag, Globe, Shield, Moon, LogOut, HelpCircle, Bell } from "lucide-react";
+import { ChevronRight, User, CreditCard, Tag, Globe, Shield, Moon, LogOut, HelpCircle, Bell, ArrowLeftRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const sections = [
