@@ -64,7 +64,11 @@ export default function Categories() {
             const isOver = pct >= 100;
             const isWarning = pct >= 80;
             return (
-              <div key={cat.name} className="rounded-xl border border-border surface-1 p-4">
+              <button
+                key={cat.name}
+                onClick={() => navigate(`/category/${encodeURIComponent(cat.name)}`)}
+                className="rounded-xl border border-border surface-1 p-4 w-full text-left hover:bg-accent/30 transition-brand"
+              >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-base">{cat.emoji}</span>
