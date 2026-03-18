@@ -47,6 +47,7 @@ const App = () => (
           <Route path="/currencies" element={<AppLayout><Currencies /></AppLayout>} />
           <Route path="/notifications" element={<AppLayout><Notifications /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><SettingsPage /></AppLayout>} />
+          <Route path="/change-password" element={<AppLayout><ChangePassword /></AppLayout>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
