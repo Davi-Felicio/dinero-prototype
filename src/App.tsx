@@ -16,6 +16,7 @@ import Notifications from "./pages/Notifications";
 import CategoryDetail from "./pages/CategoryDetail";
 import SettingsPage from "./pages/Settings";
 import ChangePassword from "./pages/ChangePassword";
+import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -48,6 +49,7 @@ const App = () => (
           <Route path="/notifications" element={<AppLayout><Notifications /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><SettingsPage /></AppLayout>} />
           <Route path="/change-password" element={<AppLayout><ChangePassword /></AppLayout>} />
+          <Route path="/profile" element={<AppLayout><Profile /></AppLayout>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
