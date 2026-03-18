@@ -15,6 +15,7 @@ import Currencies from "./pages/Currencies";
 import Notifications from "./pages/Notifications";
 import CategoryDetail from "./pages/CategoryDetail";
 import SettingsPage from "./pages/Settings";
+import ChangePassword from "./pages/ChangePassword";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
