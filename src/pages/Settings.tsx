@@ -23,7 +23,7 @@ const sections = [
   {
     title: "Segurança",
     items: [
-      { icon: Shield, label: "Alterar senha" },
+      { icon: Shield, label: "Alterar senha", path: "/change-password" },
       { icon: HelpCircle, label: "Ajuda e suporte" },
     ],
   },
