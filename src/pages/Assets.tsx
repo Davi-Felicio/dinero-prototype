@@ -1,8 +1,9 @@
 import { PageShell } from "@/components/PageShell";
-import { ChevronLeft, Search, TrendingUp, TrendingDown } from "lucide-react";
+import { ChevronLeft, Search, TrendingUp, TrendingDown, Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { AreaChart, Area, ResponsiveContainer, YAxis } from "recharts";
+import { AddAssetDialog } from "@/components/AddAssetDialog";
 
 const assetTypes = ["Todos", "Ações", "FIIs", "BDRs", "ETFs", "Cripto"];
 
@@ -109,56 +110,66 @@ const allAssets: AssetInfo[] = [
   },
 ];
 
-function AssetCard({ asset, onClick }: { asset: AssetInfo; onClick: () => void }) {
+function AssetCard({ asset, onAdd, onClick }: { asset: AssetInfo; onAdd: () => void; onClick: () => void }) {
   const isPositive = asset.change >= 0;
 
   return (
-    <button onClick={onClick} className="w-full rounded-xl border border-border surface-1 p-4 text-left transition-brand hover:bg-accent/30 active:scale-[0.98]">
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <p className="text-sm font-bold text-foreground">{asset.ticker}</p>
-          <p className="text-[11px] text-muted-foreground">{asset.name}</p>
-        </div>
-        <div className="text-right">
-          <p className="text-sm font-semibold tabular-nums tracking-tighter-custom text-foreground">
-            R$ {asset.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-          </p>
-          <div className={`flex items-center justify-end gap-0.5 ${isPositive ? "text-success" : "text-loss"}`}>
-            {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-            <span className="text-xs tabular-nums font-medium">
-              {isPositive ? "+" : ""}{asset.change.toFixed(2)}%
-            </span>
+    <div className="rounded-xl border border-border surface-1 p-4 text-left transition-brand hover:bg-accent/30">
+      <button onClick={onClick} className="w-full text-left">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-sm font-bold text-foreground">{asset.ticker}</p>
+            <p className="text-[11px] text-muted-foreground">{asset.name}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm font-semibold tabular-nums tracking-tighter-custom text-foreground">
+              R$ {asset.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+            </p>
+            <div className={`flex items-center justify-end gap-0.5 ${isPositive ? "text-success" : "text-loss"}`}>
+              {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+              <span className="text-xs tabular-nums font-medium">
+                {isPositive ? "+" : ""}{asset.change.toFixed(2)}%
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Mini Chart */}
-      <div className="h-16 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={asset.chartData}>
-            <defs>
-              <linearGradient id={`grad-${asset.ticker}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={isPositive ? "hsl(var(--success))" : "hsl(var(--destructive))"} stopOpacity={0.2} />
-                <stop offset="100%" stopColor={isPositive ? "hsl(var(--success))" : "hsl(var(--destructive))"} stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <YAxis hide domain={["dataMin", "dataMax"]} />
-            <Area
-              type="monotone"
-              dataKey="p"
-              stroke={isPositive ? "hsl(var(--success))" : "hsl(var(--destructive))"}
-              strokeWidth={1.5}
-              fill={`url(#grad-${asset.ticker})`}
-              dot={false}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+        {/* Mini Chart */}
+        <div className="h-16 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={asset.chartData}>
+              <defs>
+                <linearGradient id={`grad-${asset.ticker}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={isPositive ? "hsl(var(--success))" : "hsl(var(--destructive))"} stopOpacity={0.2} />
+                  <stop offset="100%" stopColor={isPositive ? "hsl(var(--success))" : "hsl(var(--destructive))"} stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <YAxis hide domain={["dataMin", "dataMax"]} />
+              <Area
+                type="monotone"
+                dataKey="p"
+                stroke={isPositive ? "hsl(var(--success))" : "hsl(var(--destructive))"}
+                strokeWidth={1.5}
+                fill={`url(#grad-${asset.ticker})`}
+                dot={false}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </button>
 
-      <div className="mt-1">
+      {/* Add to portfolio button */}
+      <div className="mt-2 flex items-center justify-between">
         <span className="text-[10px] text-muted-foreground px-1.5 py-0.5 rounded bg-accent/60">{asset.type}</span>
+        <button
+          onClick={(e) => { e.stopPropagation(); onAdd(); }}
+          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-primary/15 text-primary text-[11px] font-semibold transition-brand hover:bg-primary/25 active:scale-95"
+        >
+          <Plus className="w-3 h-3" />
+          Adicionar
+        </button>
       </div>
-    </button>
+    </div>
   );
 }
 
@@ -166,6 +177,7 @@ export default function Assets() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [activeType, setActiveType] = useState("Todos");
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const filtered = allAssets.filter((a) => {
     const matchType = activeType === "Todos" || a.type === activeType;
@@ -183,7 +195,7 @@ export default function Assets() {
           <button onClick={() => navigate(-1)} className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center">
             <ChevronLeft className="w-4 h-4 text-foreground" />
           </button>
-          <h1 className="text-lg font-bold text-foreground">Ativos</h1>
+          <h1 className="text-lg font-bold text-foreground">Pesquisar Ativos</h1>
         </div>
       </div>
 
@@ -239,11 +251,14 @@ export default function Assets() {
                 key={asset.ticker}
                 asset={asset}
                 onClick={() => navigate(`/asset/${asset.ticker}`)}
+                onAdd={() => setDialogOpen(true)}
               />
             ))}
           </div>
         )}
       </div>
+
+      <AddAssetDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </PageShell>
   );
 }
