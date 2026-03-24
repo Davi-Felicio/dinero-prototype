@@ -100,7 +100,12 @@ export default function Portfolio() {
 
       {/* Asset List */}
       <div className="px-5 mt-5">
-        <p className="text-sm font-semibold text-foreground mb-3">Ativos ({assets.length})</p>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-sm font-semibold text-foreground">Ativos ({assets.length})</p>
+          <button onClick={() => navigate("/assets")} className="text-xs text-primary font-medium flex items-center gap-0.5">
+            Explorar ativos <Search className="w-3 h-3" />
+          </button>
+        </div>
         <div className="divide-y divide-border">
           {assets.map((asset) => (
             <AssetRow
