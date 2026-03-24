@@ -1,9 +1,19 @@
 import { PageShell } from "@/components/PageShell";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { useState } from "react";
+import { AddCategoryDialog } from "@/components/AddCategoryDialog";
 
-const categories = [
+interface Category {
+  name: string;
+  emoji: string;
+  spent: number;
+  budget: number;
+  color: string;
+}
+
+const defaultCategories: Category[] = [
   { name: "Moradia", emoji: "🏠", spent: 1989.90, budget: 2500, color: "hsl(210, 60%, 50%)" },
   { name: "Alimentação", emoji: "🍔", spent: 687.43, budget: 1000, color: "hsl(25, 80%, 55%)" },
   { name: "Transporte", emoji: "🚗", spent: 324.70, budget: 500, color: "hsl(145, 40%, 48%)" },
@@ -13,16 +23,31 @@ const categories = [
   { name: "Educação", emoji: "📚", spent: 49.90, budget: 200, color: "hsl(50, 80%, 50%)" },
 ];
 
-const pieData = categories.map((c) => ({ name: c.name, value: c.spent }));
-
 export default function Categories() {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<Category[]>(defaultCategories);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const pieData = categories.map((c) => ({ name: c.name, value: c.spent }));
   const totalSpent = categories.reduce((sum, c) => sum + c.spent, 0);
+
+  const handleAddCategory = (newCat: { name: string; emoji: string; budget: number; color: string }) => {
+    setCategories((prev) => [
+      ...prev,
+      { ...newCat, spent: 0 },
+    ]);
+  };
 
   return (
     <PageShell>
-      <div className="px-5 pt-12 pb-4">
+      <div className="px-5 pt-12 pb-4 flex items-center justify-between">
         <h1 className="text-lg font-bold text-foreground">Categorias</h1>
+        <button
+          onClick={() => setDialogOpen(true)}
+          className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md shadow-primary/25 active:scale-95 transition-brand"
+        >
+          <Plus className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Pie Chart */}
@@ -56,11 +81,11 @@ export default function Categories() {
       </div>
 
       {/* Category List */}
-      <div className="px-5 mt-4">
+      <div className="px-5 mt-4 pb-24">
         <p className="text-sm font-semibold text-foreground mb-3">Março 2026</p>
         <div className="space-y-3">
           {categories.map((cat) => {
-            const pct = Math.round((cat.spent / cat.budget) * 100);
+            const pct = cat.budget > 0 ? Math.round((cat.spent / cat.budget) * 100) : 0;
             const isOver = pct >= 100;
             const isWarning = pct >= 80;
             return (
@@ -96,8 +121,23 @@ export default function Categories() {
               </button>
             );
           })}
+
+          {/* Add category card */}
+          <button
+            onClick={() => setDialogOpen(true)}
+            className="rounded-xl border border-dashed border-border p-4 w-full flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-accent/20 transition-brand"
+          >
+            <Plus className="w-4 h-4" />
+            Criar nova categoria
+          </button>
         </div>
       </div>
+
+      <AddCategoryDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onAdd={handleAddCategory}
+      />
     </PageShell>
   );
 }
