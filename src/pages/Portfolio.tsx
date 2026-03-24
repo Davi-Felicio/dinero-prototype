@@ -102,9 +102,6 @@ export default function Portfolio() {
       <div className="px-5 mt-5">
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold text-foreground">Ativos ({assets.length})</p>
-          <button onClick={() => navigate("/assets")} className="text-xs text-primary font-medium flex items-center gap-0.5">
-            Explorar ativos <Search className="w-3 h-3" />
-          </button>
         </div>
         <div className="divide-y divide-border">
           {assets.map((asset) => (
@@ -115,6 +112,17 @@ export default function Portfolio() {
             />
           ))}
         </div>
+      </div>
+
+      {/* Floating Search Button */}
+      <div className="px-5 mb-28 mt-6">
+        <button
+          onClick={() => navigate("/assets")}
+          className="w-full py-3.5 rounded-2xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-primary/25 transition-brand active:scale-[0.98] hover:brightness-110"
+        >
+          <Search className="w-4 h-4" />
+          Pesquisar ativos
+        </button>
       </div>
     </PageShell>
   );
