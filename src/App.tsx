@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { BottomNav } from "@/components/BottomNav";
 import Dashboard from "./pages/Dashboard";
 import Portfolio from "./pages/Portfolio";
+import Assets from "./pages/Assets";
 import AssetDetail from "./pages/AssetDetail";
 import AddTransaction from "./pages/AddTransaction";
 import Transactions from "./pages/Transactions";
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/login" element={<div className="max-w-[430px] mx-auto"><Login /></div>} />
           <Route path="/" element={<AppLayout><Dashboard /></AppLayout>} />
           <Route path="/portfolio" element={<AppLayout><Portfolio /></AppLayout>} />
+          <Route path="/assets" element={<AppLayout><Assets /></AppLayout>} />
           <Route path="/asset/:ticker" element={<AppLayout><AssetDetail /></AppLayout>} />
           <Route path="/add" element={<AppLayout><AddTransaction /></AppLayout>} />
           <Route path="/transactions" element={<AppLayout><Transactions /></AppLayout>} />
