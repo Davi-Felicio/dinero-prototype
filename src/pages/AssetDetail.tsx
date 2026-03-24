@@ -4,6 +4,8 @@ import { ChevronLeft, Star } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 import { useState } from "react";
+import { toast } from "@/components/ui/sonner";
+import { AddAssetDialog } from "@/components/AddAssetDialog";
 
 const assetData: Record<string, {
   ticker: string; name: string; price: number; change: number; type: string;
@@ -49,7 +51,14 @@ export default function AssetDetail() {
   const navigate = useNavigate();
   const asset = assetData[ticker || ""] || defaultAsset;
   const [activePeriod, setActivePeriod] = useState("1A");
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
   const isPositive = asset.change >= 0;
+
+  const handleFavorite = () => {
+    setIsFavorite(!isFavorite);
+    toast.success(isFavorite ? "Removido dos favoritos" : "Adicionado aos favoritos");
+  };
 
   return (
     <PageShell>
@@ -62,8 +71,14 @@ export default function AssetDetail() {
           <p className="text-sm font-bold text-foreground">{asset.ticker}</p>
           <p className="text-[10px] text-muted-foreground">{asset.type}</p>
         </div>
-        <button className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center">
-          <Star className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+        <button
+          onClick={handleFavorite}
+          className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center transition-brand active:scale-95"
+        >
+          <Star
+            className={`w-4 h-4 transition-colors ${isFavorite ? "text-amber-400 fill-amber-400" : "text-muted-foreground"}`}
+            strokeWidth={1.5}
+          />
         </button>
       </div>
 
@@ -150,11 +165,16 @@ export default function AssetDetail() {
       </div>
 
       {/* CTA */}
-      <div className="fixed bottom-20 left-0 right-0 px-5 pb-2">
-        <button className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm shadow-lg shadow-primary/20 transition-brand active:scale-[0.98]">
+      <div className="fixed bottom-20 left-0 right-0 px-5 pb-2 max-w-[430px] mx-auto">
+        <button
+          onClick={() => setAddDialogOpen(true)}
+          className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm shadow-lg shadow-primary/20 transition-brand active:scale-[0.98]"
+        >
           Adicionar à Carteira
         </button>
       </div>
+
+      <AddAssetDialog open={addDialogOpen} onOpenChange={setAddDialogOpen} />
     </PageShell>
   );
 }
