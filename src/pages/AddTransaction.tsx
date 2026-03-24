@@ -8,6 +8,7 @@ import { ptBR } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/sonner";
 
 interface CategoryConfig {
   emoji: string;
@@ -21,56 +22,17 @@ interface CategoryConfig {
 }
 
 const categories: CategoryConfig[] = [
-  {
-    emoji: "🍔", label: "Alimentação",
-    showLocation: true,
-    placeholderDesc: "Ex: Supermercado, restaurante...",
-  },
-  {
-    emoji: "🚗", label: "Transporte",
-    showLocation: true,
-    placeholderDesc: "Ex: Uber, gasolina, estacionamento...",
-  },
-  {
-    emoji: "🏠", label: "Moradia",
-    showDueDate: true,
-    showRecurrence: true,
-    dueDateLabel: "Vencimento",
-    placeholderDesc: "Ex: Aluguel, condomínio, IPTU...",
-  },
-  {
-    emoji: "🎮", label: "Lazer",
-    placeholderDesc: "Ex: Cinema, streaming, jogos...",
-  },
-  {
-    emoji: "💊", label: "Saúde",
-    showDueDate: true,
-    placeholderDesc: "Ex: Consulta, farmácia, plano...",
-    dueDateLabel: "Data da consulta",
-  },
-  {
-    emoji: "📚", label: "Educação",
-    showDueDate: true,
-    showRecurrence: true,
-    dueDateLabel: "Vencimento",
-    placeholderDesc: "Ex: Mensalidade, curso, livro...",
-  },
-  {
-    emoji: "📱", label: "Assinaturas",
-    showDueDate: true,
-    showRecurrence: true,
-    showProvider: true,
-    dueDateLabel: "Dia de cobrança",
-    placeholderDesc: "Ex: Netflix, Spotify, iCloud...",
-  },
-  {
-    emoji: "📦", label: "Outros",
-    placeholderDesc: "Descrição (opcional)",
-  },
+  { emoji: "🍔", label: "Alimentação", showLocation: true, placeholderDesc: "Ex: Supermercado, restaurante..." },
+  { emoji: "🚗", label: "Transporte", showLocation: true, placeholderDesc: "Ex: Uber, gasolina, estacionamento..." },
+  { emoji: "🏠", label: "Moradia", showDueDate: true, showRecurrence: true, dueDateLabel: "Vencimento", placeholderDesc: "Ex: Aluguel, condomínio, IPTU..." },
+  { emoji: "🎮", label: "Lazer", placeholderDesc: "Ex: Cinema, streaming, jogos..." },
+  { emoji: "💊", label: "Saúde", showDueDate: true, placeholderDesc: "Ex: Consulta, farmácia, plano...", dueDateLabel: "Data da consulta" },
+  { emoji: "📚", label: "Educação", showDueDate: true, showRecurrence: true, dueDateLabel: "Vencimento", placeholderDesc: "Ex: Mensalidade, curso, livro..." },
+  { emoji: "📱", label: "Assinaturas", showDueDate: true, showRecurrence: true, showProvider: true, dueDateLabel: "Dia de cobrança", placeholderDesc: "Ex: Netflix, Spotify, iCloud..." },
+  { emoji: "📦", label: "Outros", placeholderDesc: "Descrição (opcional)" },
 ];
 
 const recurrenceOptions = ["Única", "Mensal", "Semanal", "Anual"];
-
 const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ",", "0", "del"];
 
 export default function AddTransaction() {
@@ -98,6 +60,18 @@ export default function AddTransaction() {
     setActiveCategory(label);
     setDueDate(undefined);
     setRecurrence("Única");
+  };
+
+  const handleSubmit = () => {
+    if (value === "0") {
+      toast.error("Insira um valor para a transação");
+      return;
+    }
+    toast.success(
+      isExpense ? "Despesa registrada com sucesso!" : "Receita registrada com sucesso!",
+      { description: `R$ ${formattedValue} · ${activeCategory}` }
+    );
+    navigate(-1);
   };
 
   const formattedValue = value === "0" ? "0,00" : value;
@@ -177,7 +151,6 @@ export default function AddTransaction() {
 
       {/* Category-specific fields */}
       <div className="px-5 mb-3 space-y-2">
-        {/* Due Date */}
         {activeCatConfig.showDueDate && (
           <Popover>
             <PopoverTrigger asChild>
@@ -210,7 +183,6 @@ export default function AddTransaction() {
           </Popover>
         )}
 
-        {/* Recurrence */}
         {activeCatConfig.showRecurrence && (
           <div className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl surface-2 border border-border">
             <Repeat className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
@@ -233,7 +205,6 @@ export default function AddTransaction() {
           </div>
         )}
 
-        {/* Location hint for food/transport */}
         {activeCatConfig.showLocation && (
           <div className="w-full flex items-center gap-3 py-3 px-4 rounded-xl surface-2 border border-border text-sm">
             <MapPin className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
@@ -245,7 +216,6 @@ export default function AddTransaction() {
           </div>
         )}
 
-        {/* Provider for subscriptions */}
         {activeCatConfig.showProvider && (
           <div className="w-full flex items-center gap-3 py-3 px-4 rounded-xl surface-2 border border-border text-sm">
             <Building2 className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
@@ -275,11 +245,14 @@ export default function AddTransaction() {
 
       {/* Confirm */}
       <div className="fixed bottom-20 left-0 right-0 px-5 pb-2 max-w-[430px] mx-auto">
-        <button className={`w-full py-3.5 rounded-xl font-semibold text-sm shadow-lg transition-brand active:scale-[0.98] ${
-          isExpense
-            ? "bg-destructive text-destructive-foreground shadow-destructive/20"
-            : "bg-primary text-primary-foreground shadow-primary/20"
-        }`}>
+        <button
+          onClick={handleSubmit}
+          className={`w-full py-3.5 rounded-xl font-semibold text-sm shadow-lg transition-brand active:scale-[0.98] ${
+            isExpense
+              ? "bg-destructive text-destructive-foreground shadow-destructive/20"
+              : "bg-primary text-primary-foreground shadow-primary/20"
+          }`}
+        >
           {isExpense ? "Registrar despesa" : "Registrar receita"}
         </button>
       </div>

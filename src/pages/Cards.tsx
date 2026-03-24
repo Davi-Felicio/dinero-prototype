@@ -1,6 +1,7 @@
 import { PageShell } from "@/components/PageShell";
 import { ChevronLeft, CreditCard, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/sonner";
 
 const cards = [
   { name: "Nubank", type: "Crédito", lastDigits: "4523", brand: "Mastercard", limit: 12000, used: 3456.78, color: "from-purple-600/20 to-purple-900/20", dueDate: "27 Mar" },
@@ -18,7 +19,10 @@ export default function Cards() {
           <ChevronLeft className="w-4 h-4 text-foreground" />
         </button>
         <p className="text-sm font-semibold text-foreground">Cartões</p>
-        <button className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center">
+        <button
+          onClick={() => toast.info("Cadastro de cartão em breve!", { description: "Essa funcionalidade estará disponível na próxima versão." })}
+          className="w-9 h-9 rounded-full surface-2 border border-border flex items-center justify-center transition-brand active:scale-95"
+        >
           <Plus className="w-4 h-4 text-foreground" strokeWidth={1.5} />
         </button>
       </div>
